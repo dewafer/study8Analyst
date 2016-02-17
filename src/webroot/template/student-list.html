@@ -1,0 +1,11 @@
+<h1>学生列表</h1>
+
+<button class="btn btn-success" ng-click="studentCtrl.addStudent()">增加学生</button>
+<button class="btn btn-danger" ng-disabled="!studentCtrl.isStudentSelected()" ng-click="studentCtrl.removeStudent()">删除选中</button>
+<button class="btn btn-primary" ng-disabled="!studentCtrl.isStudentSelected()" ng-click="studentCtrl.analysisStudent()">分析学员</button>
+
+<div id="grid1" ui-grid="studentCtrl.gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-cellNav ui-grid-selection class="grid"></div>
+
+<button class="btn btn-success" ng-click="studentCtrl.addStudent()">增加学生</button>
+<button class="btn btn-danger" ng-disabled="!studentCtrl.isStudentSelected()" ng-click="studentCtrl.removeStudent()">删除选中</button>
+<button class="btn btn-primary" ng-disabled="!studentCtrl.isStudentSelected()" ng-click="studentCtrl.analysisStudent()">分析学员</button>

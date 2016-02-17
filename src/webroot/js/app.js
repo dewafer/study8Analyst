@@ -3,9 +3,14 @@ angular.module('DemoApp', ['ngRoute', 'Controller'])
     function($routeProvider){
         $routeProvider
             .when('/', {
-                templateUrl: 'template/index.html',
-                controller: 'IndexController',
-                controllerAs: 'indexCtrl'
+                templateUrl: 'template/student-list.html',
+                controller: 'StudentController',
+                controllerAs: 'studentCtrl'
+            })
+            .when('/student-analysis/:id', {
+                templateUrl: 'template/student-analysis.html',
+                controller: 'AnalysisController',
+                controllerAs: 'analysisCtrl'
             })
             .otherwise({
                 redirectTo: '/'
