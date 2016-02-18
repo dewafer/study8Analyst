@@ -11,8 +11,12 @@ angular.module('Service',[])
                     data: data
                 });
             },
-            get: function() {
-                return $http.get(api);
+            get: function(studentId) {
+                if(studentId){
+                    return $http.get(api, { params: {studentId: studentId }})
+                } else {
+                    return $http.get(api);
+                }
             },
             remove: function(entityId) {
                 return $http({
@@ -24,4 +28,25 @@ angular.module('Service',[])
         }
     }])
 
+    .factory('ExamService', ['$http', function($http) {
+
+        var api = '/api/exam.groovy';
+
+        return {
+            getExams: function() {
+                return $http.get(api);
+            },
+            query: function(studentId, examName) {
+                var params = { studentId: studentId };
+                if(examName) {
+                    params.examName = examName;
+                }
+                return $http({
+                    method: 'GET',
+                    url: api,
+                    params: params
+                });
+            },
+        }
+    }])
 ;

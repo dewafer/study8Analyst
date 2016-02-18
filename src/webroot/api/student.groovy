@@ -6,19 +6,37 @@ import groovy.sql.Sql
 def sql = new Sql(application.dataSource)
 
 if ('GET' == request.method) {
-    def result = [];
-    sql.eachRow '''
-        SELECT student_id, student_no, name, gender, class FROM Student order by student_no
-    ''', { row ->
-        result << [
-            id: row['student_id'],
-            studentNo: row['student_no'],
-            name: row.name,
-            gender: row.gender,
-            class: row['class']
-        ]
+
+    if(params.studentId != null) {
+
+        def row = sql.firstRow("""
+            SELECT student_id, student_no, name, gender, class FROM Student WHERE student_id = ${params.studentId}
+        """)
+
+        json {
+            id        row['student_id']
+            studentNo row['student_no']
+            name      row.name
+            gender    row.gender
+            'class'   row['class']
+        }
+
+    } else {
+
+        def result = [];
+        sql.eachRow '''
+            SELECT student_id, student_no, name, gender, class FROM Student order by student_id
+        ''', { row ->
+                result << [
+                        id       : row['student_id'],
+                        studentNo: row['student_no'],
+                        name     : row.name,
+                        gender   : row.gender,
+                        class    : row['class']
+                ]
+            }
+        json result
     }
-    json result
 }
 
 if ('POST' == request.method) {
@@ -39,6 +57,7 @@ if ('POST' == request.method) {
                 INSERT INTO Student (student_no, name, gender, class) VALUES ($data.studentNo, $data.name, $data.gender, ${data['class']})
             """
             studentId = keys[0][0]
+            application.fillExams.call(studentId, sql)
         }
 
         json {

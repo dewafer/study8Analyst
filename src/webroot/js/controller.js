@@ -23,7 +23,7 @@ angular.module('Controller',['Service', 'ui.grid', 'ui.grid.edit', 'ui.grid.rowE
             onRegisterApi: function(gridApi) {
                 self.gridApi = gridApi;
                 gridApi.rowEdit.on.saveRow($scope, function(rowEntity){
-                    var promise = StudentService.put(rowEntity).then(StudentService.get).then(function(response){
+                    var promise = StudentService.put(rowEntity).then(function(){return StudentService.get()}).then(function(response){
                         self.gridOptions.data = response.data;
                     });
                     gridApi.rowEdit.setSavePromise( rowEntity, promise );
@@ -66,8 +66,32 @@ angular.module('Controller',['Service', 'ui.grid', 'ui.grid.edit', 'ui.grid.rowE
 
     }])
 
-    .controller('AnalysisController',['$scope', '$routeParams', function($scope, $routeParams) {
+    .controller('AnalysisController',['$scope', '$routeParams', 'StudentService', 'ExamService', function($scope, $routeParams, StudentService, ExamService) {
         var self = this;
         self.studentId = $routeParams.id;
+        self.detail = null;
+        self.ctx = document.querySelector("#myChart").getContext("2d");
+        self.chart = new Chart(self.ctx);
+
+        StudentService.get(self.studentId).then(function(response){ self.student = response.data });
+
+        ExamService.query(self.studentId).then(function(response){ self.tests = response.data });
+
+        self.selectTest = function(index) {
+            self.detail = self.tests[index];
+
+            var data = {};
+            data.labels = _(self.detail.subjects).map('subject').value();
+            data.datasets = [{
+                fillColor : "rgba(151,187,205,0.5)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                data : _(self.detail.subjects).map('score').value(),
+            }];
+
+            self.chart.Radar(data);
+        }
+
     }])
 ;

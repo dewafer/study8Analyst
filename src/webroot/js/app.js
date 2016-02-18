@@ -10,7 +10,7 @@ angular.module('DemoApp', ['ngRoute', 'Controller'])
             .when('/student-analysis/:id', {
                 templateUrl: 'template/student-analysis.html',
                 controller: 'AnalysisController',
-                controllerAs: 'analysisCtrl'
+                controllerAs: 'ctrl'
             })
             .otherwise({
                 redirectTo: '/'

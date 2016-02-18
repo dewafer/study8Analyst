@@ -1,13 +1,76 @@
-<h1>学员分析</h1>
+<div class="row">
+    <div class="col-xs-12">
+        <h1>学员分析</h1>
 
-<a class="btn btn-default" href="#/">返回列表</a>
+        <a class="btn btn-default" href="#/">返回列表</a>
 
-<!--<div id="grid1" ui-grid="analysisCtrl.gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-cellNav ui-grid-selection class="grid"></div>-->
-<div>
-
-    analysing student id: {{ analysisCtrl.studentId }}
-
+        <h2>{{ ctrl.student.name }}</h2>
+        <p>{{ ctrl.student.class }}，{{ ctrl.student.gender }}，学号：{{ ctrl.student.studentNo }}。</p>
+    </div>
 </div>
 
+<div class="row">
+    <div class="col-xs-12">
 
-<a class="btn btn-default" href="#/">返回列表</a>
+        <h3>各科考试成绩列表</h3>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>考试名称</th>
+                <th>考试科目数</th>
+                <th>总分</th>
+                <th>平均分</th>
+                <th>查看</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="test in ctrl.tests track by $index">
+                <th>{{ $index + 1 }}</th>
+                <td>{{ test.exam }}</td>
+                <td>{{ test.subjects.length }}</td>
+                <td>{{ test.totalScore }}</td>
+                <td>{{ test.totalScore / test.subjects.length | number: 1 }}</td>
+                <td><button class="btn btn-default btn-sm" ng-click="ctrl.selectTest($index)">查看详情</button></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="row" ng-show="ctrl.detail">
+    <div class="col-xs-6">
+
+        <h3>{{ ctrl.detail.exam }}</h3>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>考试科目</th>
+                <th>分数</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="subject in ctrl.detail.subjects track by $index">
+                <th>{{ $index + 1 }}</th>
+                <td>{{ subject.subject }}</td>
+                <td>{{ subject.score }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-xs-6">
+        <canvas id="myChart" width="500px" height="500px"></canvas>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <a class="btn btn-default" href="#/">返回列表</a>
+    </div>
+</div>
