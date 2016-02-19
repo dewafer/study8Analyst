@@ -11,7 +11,7 @@ import org.eclipse.jetty.servlet.DefaultServlet
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.hsqldb.jdbc.JDBCDataSource
 
-def server = new Server(1234)
+def server = new Server(8080)
 
 def context = new ServletContextHandler(server, '/', ServletContextHandler.SESSIONS)
 

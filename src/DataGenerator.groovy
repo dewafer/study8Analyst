@@ -101,8 +101,12 @@ class DataGenerator {
         genders[rand.nextInt(genders.size())]
     }
 
+    /**
+     * 生成随机分数
+     * @return
+     */
     def randScore() {
-        rand.nextInt(151);
+        new GaussianRand(rand).nextScore()
     }
 
 
