@@ -59,11 +59,11 @@ if ('POST' == request.method) {
             studentId = keys[0][0]
             application.fillExams.call(studentId, sql)
         }
+    }
 
-        json {
-            response 'OK'
-            id studentId
-        }
+    json {
+        response 'OK'
+        id studentId
     }
 }
 
